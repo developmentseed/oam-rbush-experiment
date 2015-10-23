@@ -13,16 +13,18 @@ document.addEventListener('DOMContentLoaded', function () {
   document.body.style.padding = 0
   document.body.insertAdjacentHTML('beforeend', '<div id="map" style="position: absolute; top: 0; bottom: 0; width: 100%"></div>')
 
-  var map = L.mapbox.map('map', 'mapbox.streets')
-    .setView([180 + Math.random() * 180, 0], 1)
-
+  var map // the leaflet map
   var tree // the spatial index structure
+
   // fetch footprint data and index it:
   fetchFootprints(function (err, data) {
     if (err) { throw err }
     console.log('got footprints')
     tree = data
-    map.on('moveend', updateGrid)
+    map = L.mapbox.map('map', 'mapbox.streets')
+      .on('load', updateGrid)
+      .on('moveend', updateGrid)
+    map.setView([0, 180 + Math.random() * 180], 2)
   })
 
   var gridlayer
