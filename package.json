@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "standard",
-    "start": "budo index.js --open --live -- -t installify"
+    "start": "budo index.js --open --live -- -t [ installify --save ]"
   },
   "author": "Anand Thakker <vestibule@anandthakker.net> (http://anandthakker.net/)",
   "license": "MIT",
