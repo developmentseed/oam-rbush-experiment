@@ -21,6 +21,9 @@
     "rbush": "^1.4.1",
     "simple-get": "^1.4.3",
     "tilebelt": "^1.0.1",
-    "turf-extent": "^1.0.4"
+    "turf-centroid": "^1.1.2",
+    "turf-extent": "^1.0.4",
+    "turf-inside": "^1.1.4",
+    "turf-overlaps": "^1.0.3"
   }
 }

@@ -2,8 +2,12 @@
 require('mapbox.js')
 var chroma = require('chroma-js')
 var extent = require('turf-extent')
+var centroid = require('turf-centroid')
+var inside = require('turf-inside')
+var overlaps = require('turf-overlaps')
 var fetchFootprints = require('./lib/fetch-footprints')
 var grid = require('./lib/grid')
+var wrap = require('./lib/wrap')
 
 L.mapbox.accessToken = 'pk.eyJ1IjoiZGV2c2VlZCIsImEiOiJnUi1mbkVvIn0.018aLhX0Mb0tdtaT2QNe2Q'
 
@@ -37,12 +41,21 @@ document.addEventListener('DOMContentLoaded', function () {
     // footprints that intersect with the square
     console.time('aggregate on grid')
     gridData.features.forEach(function (gridSquare) {
+      gridSquare = wrap(gridSquare)
+      var featureCenter = centroid(gridSquare)
       // the footprints with bboxes that intersect with this grid square
       var foots = tree.search(extent(gridSquare))
-
-      // in the real browser we can add a simple step to first filter the
-      // features that come out of the tree.search() based on whatever filter
-      // the user has currently selected
+      foots = foots.filter(function (foot) {
+        // in the real browser we can filter these footprints based on whatever
+        // filter the user has currently selected
+        return true
+      })
+      .filter(function (foot) {
+        var footprint = foot.feature
+        var footprintCenter = centroid(footprint)
+        return inside(featureCenter, footprint) ||
+          inside(footprintCenter, gridSquare) || overlaps(footprint, gridSquare)
+      })
       gridSquare.properties.count = foots.length
     })
     console.timeEnd('aggregate on grid')
@@ -52,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
     gridlayer = L.geoJson(gridData, {
       style: gridStyle,
       onEachFeature: function (feature, layer) {
-        layer.bindPopup(JSON.stringify(feature.properties))
+        layer.bindPopup(JSON.stringify(feature))
       }
     }).addTo(map)
   }
