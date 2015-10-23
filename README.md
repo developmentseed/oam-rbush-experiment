@@ -1,2 +1,11 @@
-# oam-rbush-experiment
-Try to use rbush to quickly generate the square-bin grid used for OAM
+# A quick demo
+
+To run, clone this repo, and then:
+
+```
+npm install
+npm start
+```
+
+If you have `budo` and `installify` installed globally, you can skip the `npm install`.
+

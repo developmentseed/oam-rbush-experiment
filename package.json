@@ -1,0 +1,17 @@
+{
+  "name": "a-quick-demo",
+  "version": "1.0.0",
+  "description": "A quick demo",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard",
+    "start": "budo index.js --open --live -- -t installify"
+  },
+  "author": "Anand Thakker <vestibule@anandthakker.net> (http://anandthakker.net/)",
+  "license": "MIT",
+  "devDependencies": {
+    "budo": "^5.1.5",
+    "installify": "^1.0.2",
+    "standard": "^5.3.1"
+  }
+}
